@@ -17,30 +17,42 @@ function divide(a, b) {
 let firstNum;
 let operator;
 let secondNum;
+let content;
+
 
 function operate(operator, firstNum, secondNum) {
     return operator(firstNum, secondNum);
 };
 
+const display = document.querySelector("#display");
 
 const nums = document.querySelectorAll("#numbers > button");
 const operators = document.querySelectorAll("#operators > button");
+
+function updateDisplay(newContent) {
+
+    if (!content) {
+        content = newContent;   
+    } else {
+        content += ` ${newContent}`
+    }
+    display.textContent = content;
+};
 
 nums.forEach(num => {
     num.addEventListener("click", () => {
         if (!firstNum) {
             firstNum = parseInt(num.textContent);
-            console.log(firstNum);
+            updateDisplay(firstNum);
         } else if (!secondNum) {
             secondNum = parseInt(num.textContent);
-            console.log(secondNum);
-        } else if (operator) {
-            operate(operator, firstNum, secondNum);
+            updateDisplay(secondNum);
         } else {
             console.log("test")
         }
-
     })
 });
+
+
 
 
