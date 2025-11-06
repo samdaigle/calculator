@@ -11,74 +11,59 @@ function multiply(a, b) {
 };
 
 function divide(a, b) {
-    return a / b;
+    if (b !== 0) {
+        return a / b;
+    } 
 };
 
-let currentNumber = 0;
-let previousNumber = 0;
+let firstNumber;
+let secondNumber;
+let displayNumber;
 let solution = 0;
 let operator;
-let content;
+const operatorList = {"+": add, "-": subtract, "*": multiply, "/": divide};
 
 
-function operate(operator, firstNum, secondNum) {
-    return operator(firstNum, secondNum);
+
+function operate(operator, a, b) {
+    return operator(a, b);
 };
+
 
 const display = document.querySelector("#display");
 const digits = document.querySelectorAll("#numbers > button");
-const operators = document.querySelectorAll("#operators > button");
+const addBtn = document.querySelector(".add");
+const subtractBtn = document.querySelector(".subtract");
+const divideBtn = document.querySelector(".divide");
+const multiplyBtn = document.querySelector(".multiply");
+const equalsBtn = document.querySelector(".equals");
+const clearBtn = document.querySelector(".clear");
 
-function updateDisplay(newContent) {
 
-    content = newContent;
-    display.textContent = content;
+function updateDisplay(newDisplay) {
+    display.textContent = newDisplay;
 };
 
+
 function clear() {
-    currentNumber = 0;
-    previousNumber = 0;
+    firstNumber = 0;
+    secondNumber = 0;
+    displayNumber = 0;
     solution = 0;
+    operator = 0; 
     updateDisplay(0);
 };
 
-function getCurrentNumber(digit) {
-    if (!currentNumber) {
-        currentNumber = digit;
+clearBtn.addEventListener("click", clear());
+
+function updateDisplayNumber(digit) {
+    if (!displayNumber) {
+        displayNumber = digit;
     } else {
-        currentNumber += digit;
+        displayNumber += digit;
     }
 }
 
-digits.forEach(digit => {
-    digit.addEventListener("click", () => {
-        getCurrentNumber(digit.textContent);
-        updateDisplay(currentNumber);
-    })
-});
-
-operators.forEach(item => {
-    item.addEventListener("click", () => {
-        let userSelection = item.textContent;
-        if (userSelection == "+") {
-            operator = add;
-        } else if (userSelection == "-") {
-            operator = subtract;
-        } else if (userSelection == "/") {
-            operator = divide;
-        } else if (userSelection == "*") {
-            operator = multiply
-        } else if (userSelection == "=") {
-            solution = operate(operator, currentNumber, previousNumber);
-        } else if (userSelection == "clear") {
-            clear();
-        }
-    })
-})
-
-
-
-updateDisplay(currentNumber);
 
 
 
