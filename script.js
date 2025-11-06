@@ -14,9 +14,10 @@ function divide(a, b) {
     return a / b;
 };
 
-let firstNum;
+let currentNumber = 0;
+let previousNumber = 0;
+let solution = 0;
 let operator;
-let secondNum;
 let content;
 
 
@@ -25,34 +26,40 @@ function operate(operator, firstNum, secondNum) {
 };
 
 const display = document.querySelector("#display");
-
-const nums = document.querySelectorAll("#numbers > button");
+const digits = document.querySelectorAll("#numbers > button");
 const operators = document.querySelectorAll("#operators > button");
 
 function updateDisplay(newContent) {
 
-    if (!content) {
-        content = newContent;   
-    } else {
-        content += ` ${newContent}`
-    }
+    content = newContent;
     display.textContent = content;
 };
 
-nums.forEach(num => {
-    num.addEventListener("click", () => {
-        if (!firstNum) {
-            firstNum = parseInt(num.textContent);
-            updateDisplay(firstNum);
-        } else if (!secondNum) {
-            secondNum = parseInt(num.textContent);
-            updateDisplay(secondNum);
-        } else {
-            console.log("test")
-        }
+function clear() {
+    currentNumber = 0;
+    previousNumber = 0;
+    solution = 0;
+    updateDisplay(0);
+};
+
+function getCurrentNumber(digit) {
+    if (!currentNumber) {
+        currentNumber = digit;
+    } else {
+        currentNumber += digit;
+    }
+}
+
+digits.forEach(digit => {
+    digit.addEventListener("click", () => {
+        getCurrentNumber(digit.textContent);
+        updateDisplay(currentNumber);
     })
 });
 
+
+
+updateDisplay(currentNumber);
 
 
 
