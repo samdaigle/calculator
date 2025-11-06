@@ -57,6 +57,25 @@ digits.forEach(digit => {
     })
 });
 
+operators.forEach(item => {
+    item.addEventListener("click", () => {
+        let userSelection = item.textContent;
+        if (userSelection == "+") {
+            operator = add;
+        } else if (userSelection == "-") {
+            operator = subtract;
+        } else if (userSelection == "/") {
+            operator = divide;
+        } else if (userSelection == "*") {
+            operator = multiply
+        } else if (userSelection == "=") {
+            solution = operate(operator, currentNumber, previousNumber);
+        } else if (userSelection == "clear") {
+            clear();
+        }
+    })
+})
+
 
 
 updateDisplay(currentNumber);
