@@ -85,4 +85,22 @@ addBtn.addEventListener("click", () => {
     displayNumber = 0;
 })
 
+subtractBtn.addEventListener("click", () => {
+    firstNumber = +displayNumber;
+    currentOperator = subtract;
+    displayNumber = 0;
+})
+
+divideBtn.addEventListener("click", () => {
+    firstNumber = +displayNumber;
+    currentOperator = divide;
+    displayNumber = 0;
+})
+
+multiplyBtn.addEventListener("click", () => {
+    firstNumber = +displayNumber;
+    currentOperator = multiply;
+    displayNumber = 0;
+})
+
 
