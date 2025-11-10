@@ -1,3 +1,10 @@
+let firstNumber;
+let secondNumber;
+let displayNumber;
+let solution;
+let currentOperator;
+let isFirstOperation = true;
+
 function add(a, b) {
     return a + b;
 };
@@ -16,34 +23,13 @@ function divide(a, b) {
     } 
 };
 
-let firstNumber;
-let secondNumber;
-let displayNumber;
-let solution = 0;
-let operator;
-const operatorList = {"+": add, "-": subtract, "*": multiply, "/": divide};
-
-
-
-function operate(operator, a, b) {
-    return operator(a, b);
-};
-
-
-const display = document.querySelector("#display");
-const digits = document.querySelectorAll("#numbers > button");
-const addBtn = document.querySelector(".add");
-const subtractBtn = document.querySelector(".subtract");
-const divideBtn = document.querySelector(".divide");
-const multiplyBtn = document.querySelector(".multiply");
-const equalsBtn = document.querySelector(".equals");
-const clearBtn = document.querySelector(".clear");
-
-
-function updateDisplay(newDisplay) {
-    display.textContent = newDisplay;
-};
-
+function equals(operator, a, b = 0) {
+    if (!b) {
+        return a;
+    } else {
+        return operator(a, b);
+    }
+}
 
 function clear() {
     firstNumber = 0;
@@ -52,18 +38,51 @@ function clear() {
     solution = 0;
     operator = 0; 
     updateDisplay(0);
-};
-
-clearBtn.addEventListener("click", clear());
-
-function updateDisplayNumber(digit) {
-    if (!displayNumber) {
-        displayNumber = digit;
-    } else {
-        displayNumber += digit;
-    }
 }
 
 
+
+const display = document.querySelector("#display");
+const digits = document.querySelectorAll("#numbers > button");
+const addBtn = document.querySelector("#addition");
+const subtractBtn = document.querySelector("#subtract");
+const divideBtn = document.querySelector("#divide");
+const multiplyBtn = document.querySelector("#multiply");
+const equalsBtn = document.querySelector("#equals");
+const clearBtn = document.querySelector("#clear");
+
+
+function updateDisplay(newDisplay) {
+    display.textContent = newDisplay;
+};
+
+
+digits.forEach(digit => {
+    digit.addEventListener("click", () => {
+        newDigit = digit.textContent;
+        if (!displayNumber) {
+            displayNumber = newDigit;
+        } else {
+            displayNumber += newDigit;
+        }
+        updateDisplay(displayNumber);
+    })
+})
+
+clearBtn.addEventListener("click", () => {
+    clear()
+})
+
+equalsBtn.addEventListener("click", () => {
+    secondNumber = +displayNumber;
+    solution = equals(currentOperator, firstNumber, secondNumber);
+    updateDisplay(solution);
+})
+
+addBtn.addEventListener("click", () => {
+    firstNumber = +displayNumber;
+    currentOperator = add;
+    displayNumber = 0;
+})
 
 
