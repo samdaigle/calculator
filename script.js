@@ -3,7 +3,7 @@ let secondNumber;
 let displayNumber;
 let solution;
 let currentOperator;
-let isFirstOperation = true;
+
 
 function add(a, b) {
     return a + b;
@@ -23,7 +23,7 @@ function divide(a, b) {
     } 
 };
 
-function equals(operator, a, b = 0) {
+function operate(operator, a, b = 0) {
     if (!b) {
         return a;
     } else {
@@ -75,8 +75,9 @@ clearBtn.addEventListener("click", () => {
 
 equalsBtn.addEventListener("click", () => {
     secondNumber = +displayNumber;
-    solution = equals(currentOperator, firstNumber, secondNumber);
-    updateDisplay(solution);
+    solution = operate(currentOperator, firstNumber, secondNumber);
+    displayNumber = solution;
+    updateDisplay(displayNumber);
 })
 
 addBtn.addEventListener("click", () => {
