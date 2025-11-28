@@ -37,9 +37,26 @@ function clear() {
     displayNumber = 0;
     solution = 0;
     operator = 0; 
-    updateDisplay(0);
+    updateDisplay("");
 }
 
+function equals() {
+    secondNumber = +displayNumber;
+    solution = operate(currentOperator, firstNumber, secondNumber);
+    displayNumber = solution;
+    updateDisplay(displayNumber);
+}
+
+function checkMultipleOperations() {
+      if (firstNumber) {
+        equals();
+        firstNumber = solution;
+        displayNumber = 0;
+    } else{
+        firstNumber = +displayNumber;
+        displayNumber = 0;  
+    }
+}
 
 
 const display = document.querySelector("#display");
@@ -74,34 +91,29 @@ clearBtn.addEventListener("click", () => {
 })
 
 equalsBtn.addEventListener("click", () => {
-    secondNumber = +displayNumber;
-    solution = operate(currentOperator, firstNumber, secondNumber);
-    displayNumber = solution;
-    updateDisplay(displayNumber);
+    equals()
 })
 
 addBtn.addEventListener("click", () => {
-    firstNumber = +displayNumber;
+    
+    checkMultipleOperations()
     currentOperator = add;
-    displayNumber = 0;
 })
 
 subtractBtn.addEventListener("click", () => {
-    firstNumber = +displayNumber;
+    checkMultipleOperations();
     currentOperator = subtract;
-    displayNumber = 0;
 })
 
 divideBtn.addEventListener("click", () => {
-    firstNumber = +displayNumber;
+    checkMultipleOperations();
     currentOperator = divide;
-    displayNumber = 0;
+    
 })
 
 multiplyBtn.addEventListener("click", () => {
-    firstNumber = +displayNumber;
+    checkMultipleOperations();
     currentOperator = multiply;
-    displayNumber = 0;
 })
 
 
