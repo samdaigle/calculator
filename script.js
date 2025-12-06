@@ -2,7 +2,19 @@ let firstNumber;
 let secondNumber;
 let displayNumber;
 let solution;
+let previousSolution;
 let currentOperator;
+let storeSecond = false;
+let tryToSolve = false;
+
+const display = document.querySelector("#display");
+const digits = document.querySelectorAll("#numbers > button");
+const addBtn = document.querySelector("#addition");
+const subtractBtn = document.querySelector("#subtract");
+const divideBtn = document.querySelector("#divide");
+const multiplyBtn = document.querySelector("#multiply");
+const equalsBtn = document.querySelector("#equals");
+const clearBtn = document.querySelector("#clear");
 
 
 function add(a, b) {
@@ -40,80 +52,98 @@ function clear() {
     updateDisplay("");
 }
 
-function equals() {
-    secondNumber = +displayNumber;
-    solution = operate(currentOperator, firstNumber, secondNumber);
-    displayNumber = solution;
-    updateDisplay(displayNumber);
-}
-
-function checkMultipleOperations() {
-      if (firstNumber) {
-        equals();
-        firstNumber = solution;
-        displayNumber = 0;
-    } else{
-        firstNumber = +displayNumber;
-        displayNumber = 0;  
-    }
-}
-
-
-const display = document.querySelector("#display");
-const digits = document.querySelectorAll("#numbers > button");
-const addBtn = document.querySelector("#addition");
-const subtractBtn = document.querySelector("#subtract");
-const divideBtn = document.querySelector("#divide");
-const multiplyBtn = document.querySelector("#multiply");
-const equalsBtn = document.querySelector("#equals");
-const clearBtn = document.querySelector("#clear");
-
+clearBtn.addEventListener("click", () => {
+    clear()
+})
 
 function updateDisplay(newDisplay) {
     display.textContent = newDisplay;
 };
 
 
+
 digits.forEach(digit => {
     digit.addEventListener("click", () => {
+    
         newDigit = digit.textContent;
+         
         if (!displayNumber) {
             displayNumber = newDigit;
         } else {
             displayNumber += newDigit;
         }
         updateDisplay(displayNumber);
+        if (storeSecond) {
+            secondNumber = +displayNumber;
+        } else {
+            firstNumber = +displayNumber;
+        }
+        console.log(firstNumber, secondNumber);
     })
 })
 
-clearBtn.addEventListener("click", () => {
-    clear()
-})
 
 equalsBtn.addEventListener("click", () => {
-    equals()
+   
+    if (currentOperator) {
+
+        solution = operate(currentOperator, firstNumber, secondNumber);
+        displayNumber = solution;
+        firstNumber = solution;
+        updateDisplay(displayNumber);
+        storeSecond = false;
+        tryToSolve = false;
+    } 
+    displayNumber = 0;
+    
 })
 
-addBtn.addEventListener("click", () => {
+
+function checkForSolution() {
     
-    checkMultipleOperations()
+    if (tryToSolve) {
+       
+        solution = operate(currentOperator, firstNumber, secondNumber);
+        displayNumber = solution;
+        firstNumber = solution;
+        updateDisplay(displayNumber);
+        displayNumber = 0;
+    } 
+}
+
+addBtn.addEventListener("click", () => {
+   
+    storeSecond = true;
+    displayNumber = 0;
+    checkForSolution();
     currentOperator = add;
+    tryToSolve = true;
 })
 
 subtractBtn.addEventListener("click", () => {
-    checkMultipleOperations();
+
+    storeSecond = true;
+    displayNumber = 0;
+    checkForSolution();
     currentOperator = subtract;
+    tryToSolve = true;
 })
 
 divideBtn.addEventListener("click", () => {
-    checkMultipleOperations();
+    storeSecond = true;
+    displayNumber = 0;
+    checkForSolution();
     currentOperator = divide;
+    tryToSolve = true;
     
 })
 
 multiplyBtn.addEventListener("click", () => {
-    checkMultipleOperations();
+    storeSecond = true;
+    displayNumber = 0;
+    checkForSolution();
     currentOperator = multiply;
+    tryToSolve = true;
 })
 
 
