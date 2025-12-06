@@ -29,9 +29,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  if (b !== 0) {
-    return a / b;
-  }
+  return a / b;
 }
 
 function operate(operator, a, b = 0) {
