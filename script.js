@@ -1,6 +1,6 @@
 let firstNumber;
 let secondNumber;
-let displayNumber;
+let displayNumber = 0;
 let solution;
 let previousSolution;
 let currentOperator;
@@ -16,134 +16,121 @@ const multiplyBtn = document.querySelector("#multiply");
 const equalsBtn = document.querySelector("#equals");
 const clearBtn = document.querySelector("#clear");
 
-
 function add(a, b) {
-    return a + b;
-};
+  return a + b;
+}
 
 function subtract(a, b) {
-    return a - b;
-};
+  return a - b;
+}
 
 function multiply(a, b) {
-    return a * b;
-};
+  return a * b;
+}
 
 function divide(a, b) {
-    if (b !== 0) {
-        return a / b;
-    } 
-};
+  if (b !== 0) {
+    return a / b;
+  }
+}
 
 function operate(operator, a, b = 0) {
-    if (!b) {
-        return a;
-    } else {
-        return operator(a, b);
-    }
+  if (!b) {
+    return a;
+  } else {
+    return Math.round(operator(a, b) * 100000000) / 100000000;
+  }
 }
 
 function clear() {
-    firstNumber = 0;
-    secondNumber = 0;
-    displayNumber = 0;
-    solution = 0;
-    operator = 0; 
-    updateDisplay("");
+  firstNumber = 0;
+  secondNumber = 0;
+  displayNumber = 0;
+  solution = 0;
+  operator = 0;
+  updateDisplay(displayNumber);
 }
 
 clearBtn.addEventListener("click", () => {
-    clear()
-})
+  clear();
+});
 
 function updateDisplay(newDisplay) {
-    display.textContent = newDisplay;
-};
+  display.textContent = newDisplay;
+}
 
+digits.forEach((digit) => {
+  digit.addEventListener("click", () => {
+    newDigit = digit.textContent;
 
+    if (!displayNumber) {
+      displayNumber = newDigit;
+    } else {
+      displayNumber += newDigit;
+    }
 
-digits.forEach(digit => {
-    digit.addEventListener("click", () => {
-    
-        newDigit = digit.textContent;
-         
-        if (!displayNumber) {
-            displayNumber = newDigit;
-        } else {
-            displayNumber += newDigit;
-        }
-        updateDisplay(displayNumber);
-        if (storeSecond) {
-            secondNumber = +displayNumber;
-        } else {
-            firstNumber = +displayNumber;
-        }
-        console.log(firstNumber, secondNumber);
-    })
-})
-
+    updateDisplay(displayNumber);
+    if (storeSecond) {
+      secondNumber = +displayNumber;
+    } else {
+      firstNumber = +displayNumber;
+    }
+  });
+});
 
 equalsBtn.addEventListener("click", () => {
-   
-    if (currentOperator) {
+  if (currentOperator) {
+    solution = operate(currentOperator, firstNumber, secondNumber);
+    displayNumber = solution;
+    firstNumber = solution;
+    updateDisplay(displayNumber);
+    storeSecond = false;
+    tryToSolve = false;
+  }
 
-        solution = operate(currentOperator, firstNumber, secondNumber);
-        displayNumber = solution;
-        firstNumber = solution;
-        updateDisplay(displayNumber);
-        storeSecond = false;
-        tryToSolve = false;
-    } 
-    displayNumber = 0;
-    
-})
-
+  displayNumber = 0;
+});
 
 function checkForSolution() {
-    
-    if (tryToSolve) {
-       
-        solution = operate(currentOperator, firstNumber, secondNumber);
-        displayNumber = solution;
-        firstNumber = solution;
-        updateDisplay(displayNumber);
-        displayNumber = 0;
-    } 
+  if (tryToSolve) {
+    solution = operate(currentOperator, firstNumber, secondNumber);
+    displayNumber = solution;
+    firstNumber = solution;
+    updateDisplay(displayNumber);
+    displayNumber = 0;
+  }
 }
 
 addBtn.addEventListener("click", () => {
-   
-    storeSecond = true;
-    displayNumber = 0;
-    checkForSolution();
-    currentOperator = add;
-    tryToSolve = true;
-})
+  storeSecond = true;
+  displayNumber = 0;
+  checkForSolution();
+  currentOperator = add;
+  tryToSolve = true;
+});
 
 subtractBtn.addEventListener("click", () => {
-
-    storeSecond = true;
-    displayNumber = 0;
-    checkForSolution();
-    currentOperator = subtract;
-    tryToSolve = true;
-})
+  storeSecond = true;
+  displayNumber = 0;
+  checkForSolution();
+  currentOperator = subtract;
+  tryToSolve = true;
+});
 
 divideBtn.addEventListener("click", () => {
-    storeSecond = true;
-    displayNumber = 0;
-    checkForSolution();
-    currentOperator = divide;
-    tryToSolve = true;
-    
-})
+  storeSecond = true;
+  displayNumber = 0;
+  checkForSolution();
+  currentOperator = divide;
+  tryToSolve = true;
+});
 
 multiplyBtn.addEventListener("click", () => {
-    storeSecond = true;
-    displayNumber = 0;
-    checkForSolution();
-    currentOperator = multiply;
-    tryToSolve = true;
-})
+  storeSecond = true;
+  displayNumber = 0;
+  checkForSolution();
+  currentOperator = multiply;
+  tryToSolve = true;
+});
 
-
+updateDisplay(displayNumber);
