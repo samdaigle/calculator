@@ -32,12 +32,9 @@ function divide(a, b) {
   return a / b;
 }
 
-function operate(operator, a, b = 0) {
-  if (!b) {
-    return a;
-  } else {
-    return Math.round(operator(a, b) * 100000000) / 100000000;
-  }
+function operate(op, a, b) {
+  const result = op(a, b);
+  return Math.round(result * 100000000) / 100000000;
 }
 
 function clear() {
@@ -99,36 +96,20 @@ function checkForSolution() {
   }
 }
 
-addBtn.addEventListener("click", () => {
+function handleOperator(op) {
   storeSecond = true;
   displayNumber = 0;
   checkForSolution();
-  currentOperator = add;
+  currentOperator = op;
   tryToSolve = true;
-});
+}
 
-subtractBtn.addEventListener("click", () => {
-  storeSecond = true;
-  displayNumber = 0;
-  checkForSolution();
-  currentOperator = subtract;
-  tryToSolve = true;
-});
+addBtn.addEventListener("click", () => handleOperator(add));
 
-divideBtn.addEventListener("click", () => {
-  storeSecond = true;
-  displayNumber = 0;
-  checkForSolution();
-  currentOperator = divide;
-  tryToSolve = true;
-});
+subtractBtn.addEventListener("click", () => handleOperator(subtract));
 
-multiplyBtn.addEventListener("click", () => {
-  storeSecond = true;
-  displayNumber = 0;
-  checkForSolution();
-  currentOperator = multiply;
-  tryToSolve = true;
-});
+divideBtn.addEventListener("click", () => handleOperator(divide));
+
+multiplyBtn.addEventListener("click", () => handleOperator(multiply));
 
 updateDisplay(displayNumber);
